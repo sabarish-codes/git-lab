@@ -4,8 +4,10 @@ import { isValidTotal } from "../utils/validate";
 
 export const ordersRouter = Router();
 
-ordersRouter.get("/", (_req, res) => {
-  res.json(orders);
+ordersRouter.get("/", (req, res) => {
+  const { status } = req.query;
+  const result = status ? orders.filter((o) => o.status === status) : orders;
+  res.json(result);
 });
 
 ordersRouter.get("/:id", (req, res) => {
