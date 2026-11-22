@@ -1,8 +1,29 @@
 import { Router } from "express";
 import { orders } from "../data/orders";
+import { isValidTotal } from "../utils/validate";
 
 export const ordersRouter = Router();
 
 ordersRouter.get("/", (_req, res) => {
   res.json(orders);
+});
+
+ordersRouter.get("/:id", (req, res) => {
+  const order = orders.find((o) => o.id === Number(req.params.id));
+  if (!order) {
+    res.status(404).json({ error: "not found" });
+    return;
+  }
+  res.json(order);
+});
+
+ordersRouter.post("/", (req, res) => {
+  const { customer, total } = req.body;
+  if (!customer || !isValidTotal(total)) {
+    res.status(400).json({ error: "invalid order" });
+    return;
+  }
+  const order = { id: orders.length + 1, customer, total, status: "pending" as const };
+  orders.push(order);
+  res.status(201).json(order);
 });
