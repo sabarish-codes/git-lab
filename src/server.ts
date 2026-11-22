@@ -1,9 +1,11 @@
 import express from "express";
 import { config } from "./config";
+import { logger } from "./middleware/logger";
 import { ordersRouter } from "./routes/orders";
 
 const app = express();
 app.use(express.json());
+app.use(logger);
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
