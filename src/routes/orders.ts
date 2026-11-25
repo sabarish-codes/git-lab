@@ -29,3 +29,13 @@ ordersRouter.post("/", (req, res) => {
   orders.push(order);
   res.status(201).json(order);
 });
+
+ordersRouter.delete("/:id", (req, res) => {
+  const index = orders.findIndex((o) => o.id === Number(req.params.id));
+  if (index === -1) {
+    res.status(404).json({ error: "not found" });
+    return;
+  }
+  orders.splice(index, 1);
+  res.status(204).send();
+});
