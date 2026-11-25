@@ -9,3 +9,4 @@ Run: `npm run dev`
 - GET /orders
 - GET /orders/:id
 - POST /orders
+- DELETE /orders/:id
